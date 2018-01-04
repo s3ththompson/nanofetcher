@@ -1,4 +1,4 @@
-# nanofetch [![stability][0]][1]
+# nanofetcher [![stability][0]][1]
 [![npm version][2]][3] [![build status][4]][5]
 [![downloads][8]][9] [![js-standard-style][10]][11]
 
@@ -17,16 +17,16 @@ nanocomponent with support for fetching async data
 
 ```js
 // post.js
-var Nanofetch = require('nanofetch')
+var Nanofetcher = require('nanofetcher')
 var html = require('bel')
 
 module.exports = Post
 
 function Post () {
   if (!(this instanceof Post)) return new Post()
-  Nanofetch.call(this)
+  Nanofetcher.call(this)
 }
-Post.prototype = Object.create(Nanofetch.prototype)
+Post.prototype = Object.create(Nanofetcher.prototype)
 Post.prototype.constructor = Post
 
 Post.identity = function (postID) {
@@ -81,7 +81,7 @@ function postView (state, emit) {
 
 ## Patterns
 
-These are some common patterns you might use when writing nanofetch components.
+These are some common patterns you might use when writing nanofetcher components.
 
 ### Prefetching
 
@@ -122,10 +122,10 @@ function postView (state, emit) {
 
 ### What is the component lifecycle?
 
-First, make sure you're familiar with [`nanocomponent` lifecycle events][nc-lifecycle]. Nanofetch components
+First, make sure you're familiar with [`nanocomponent` lifecycle events][nc-lifecycle]. Nanofetcher components
 have one of two possible lifecycles.
 
-1. If a component is rendered normally, Nanofetch splits Nanocomponent's usual `createElement` into two hooks:
+1. If a component is rendered normally, Nanofetcher splits Nanocomponent's usual `createElement` into two hooks:
 `init` and `placeholder`. `init` is used to set instance properties from arguments and kick off anything that
 needs to run along side node rendering. `placeholder` returns an element that represents the component's default
 or loading state before async data finishes fetching. Once the placeholder element has been mounted in the DOM,
@@ -138,8 +138,8 @@ from arguments, and then `fetch` to kick off async data fetching. When the compo
 
 ### Why shouldn't I implement `createElement`?
 
-Nanofetch calls Nanocomponent's `createElement` under the hood. Conceptually, `createElement` is replaced by 
-Nanofetch's `init` + `placeholder` hooks (if an element is rendered without first prefetching) or the `hydrate`
+Nanofetcher calls Nanocomponent's `createElement` under the hood. Conceptually, `createElement` is replaced by 
+Nanofetcher's `init` + `placeholder` hooks (if an element is rendered without first prefetching) or the `hydrate`
 hook (if an element has already prefetched data). This allows `init` to be skipped when an element is created and mounted if it has already been run during prefetching.
 
 ### How do I know when data is populated and element is mounted?
@@ -150,8 +150,8 @@ Otherwise, `load` will fire when the placeholder is mounted and `done` will fire
 
 ## API
 
-### `component = Nanofetch()`
-Create a new Nanofetch instance. Additional methods can be set on the
+### `component = Nanofetcher()`
+Create a new Nanofetcher instance. Additional methods can be set on the
 prototype. See [`nanocomponent`][nc-api] for more details
 
 ### `component.render([arguments…])`
@@ -172,51 +172,51 @@ A [getter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Fun
 property that returns the component's DOM node if its mounted in the page and
 `null` when its not.
 
-### `String = Nanofetch.identity([arguments…])`
+### `String = Nanofetcher.identity([arguments…])`
 __Must be implemented.__ Static `identity` method which returns an id for a given set of arguments. Used
 to ensure that async fetched data matches currently mounted element.
 
-### `Nanofetch.prototype.init([arguments…])`
+### `Nanofetcher.prototype.init([arguments…])`
 Called once, either at the beginning of prefetching (if `component.prefetch` is called) or the beginning of
 `Nanocomponent.prototype.createElement()`.  Use to set instance properties from arguments.
 
-### `DOMNode = Nanofetch.prototype.placeholder()`
+### `DOMNode = Nanofetcher.prototype.placeholder()`
 __Must be implemented.__ Return a DOMNode representing the default or loading state of the component.
 This DOMNode will be rendered before async data finishes fetching. Elements returned from `placeholder`
 must always return the same root node type.
 
-### `DOMNode = Nanofetch.prototype.hydrate(data)`
+### `DOMNode = Nanofetcher.prototype.hydrate(data)`
 __Must be implemented.__ Return a DOMNode representing the hydrated, fully-loaded state of the component,
 given async fetched data. Elements returned from `hydrate` must always return the same root node type and
 must share the same root node type as `placeholder`.
 
-### `Nanofetch.prototype.fetch(cb)`
+### `Nanofetcher.prototype.fetch(cb)`
 __Must be implemented.__ Implement asynchronous data fetching. Call callback (`function (err, data) {}`)
 with error or fetched data.
 
-### `Boolean = Nanofetch.prototype.update([arguments…])`
+### `Boolean = Nanofetcher.prototype.update([arguments…])`
 __Must be implemented.__ Return a boolean to determine if
 `prototype.createElement()` should be called.  See [`nanocomponent`][nc-update] for more details.
 
-### `Nanofetch.prototype.done(el)`
+### `Nanofetcher.prototype.done(el)`
 Called when the component is mounted on the DOM and async data has been fetched & hydrated.
 
-### `Nanofetch.prototype.beforerender(el)`
+### `Nanofetcher.prototype.beforerender(el)`
 A function called right after `createElement` returns with `el`, but before the fully rendered
 element is returned to the `render` caller. See [`nanocomponent`][nc-beforerender] for more details.
 
-### `Nanofetch.prototype.load(el)`
+### `Nanofetcher.prototype.load(el)`
 Called when the component is mounted on the DOM. See [`nanocomponent`][nc-load] for more details.
 
-### `Nanofetch.prototype.unload(el)`
+### `Nanofetcher.prototype.unload(el)`
 Called when the component is removed from the DOM. See [`nanocomponent`][nc-unload] for more details.
 the hood.
 
-### `Nanofetch.prototype.afterupdate(el)`
+### `Nanofetcher.prototype.afterupdate(el)`
 Called after a mounted component updates (e.g. `update` returns true).  See [`nanocomponent`][nc-afterupdate]
 for more details.
 
-### `Nanofetch.prototype.afterreorder(el)`
+### `Nanofetcher.prototype.afterreorder(el)`
 Called after a component is re-ordered.  See [`nanocomponent`][nc-afterreorder] for more details.
 
 ## License
@@ -224,12 +224,12 @@ Called after a component is re-ordered.  See [`nanocomponent`][nc-afterreorder] 
 
 [0]: https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square
 [1]: https://nodejs.org/api/documentation.html#documentation_stability_index
-[2]: https://img.shields.io/npm/v/nanofetch.svg?style=flat-square
-[3]: https://npmjs.org/package/nanofetch
-[4]: https://img.shields.io/travis/s3ththompson/nanofetch/master.svg?style=flat-square
-[5]: https://travis-ci.org/s3ththompson/nanofetch
-[8]: http://img.shields.io/npm/dm/nanofetch.svg?style=flat-square
-[9]: https://npmjs.org/package/nanofetch
+[2]: https://img.shields.io/npm/v/nanofetcher.svg?style=flat-square
+[3]: https://npmjs.org/package/nanofetcher
+[4]: https://img.shields.io/travis/s3ththompson/nanofetcher/master.svg?style=flat-square
+[5]: https://travis-ci.org/s3ththompson/nanofetcher
+[8]: http://img.shields.io/npm/dm/nanofetcher.svg?style=flat-square
+[9]: https://npmjs.org/package/nanofetcher
 [10]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [11]: https://github.com/feross/standard
 [nc]: https://github.com/choojs/nanocomponent

@@ -1,5 +1,5 @@
 {
-  "name": "nanofetch",
+  "name": "nanofetcher",
   "version": "0.1.0",
   "description": "nanocomponent with support for fetching async data",
   "main": "index.js",
@@ -11,6 +11,7 @@
     "test:node": "NODE_ENV=test node test/node.js | tap-spec",
     "test:browser": "browserify test/browser.js | tape-run | tap-spec"
   },
+  "repository": "s3ththompson/nanofetcher",
   "author": "Seth Thompson <s3th.thompson@gmail.com> (https://seththompson.org)",
   "license": "MIT",
   "dependencies": {
