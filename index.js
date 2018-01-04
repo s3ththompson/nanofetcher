@@ -51,7 +51,6 @@ Nanofetch.prototype._createElement = function() {
     if (this.init) this.init.apply(this, args)
   }
 
-
   this._createdID = id
   var el
   if (this._status == STATUS.FETCHED) {
