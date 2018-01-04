@@ -21,12 +21,14 @@ function Nanofetch () {
   this._prefetchCbs = []
   // make sure child class does not have createElement, but disregard Nanocomponent.prototype.createElement
   assert.ok(!this.constructor.prototype.hasOwnProperty('createElement'), 'nanofetch: createElement should not be defined')
+  this.createElement = this._createElement
   Nanocomponent.call(this)
 }
 
 Nanofetch.prototype = Object.create(Nanocomponent.prototype)
+Nanofetch.prototype.constructor = Nanofetch
 
-Nanofetch.prototype.createElement = function() {
+Nanofetch.prototype._createElement = function() {
   var args = new Array(arguments.length)
   for (var i = 0; i < arguments.length; i++) args[i] = arguments[i]
 
