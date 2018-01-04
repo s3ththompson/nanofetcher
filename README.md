@@ -13,6 +13,12 @@ nanocomponent with support for fetching async data
 - Implemented in <150 LOC
 - Works well with component cachers like [`component-box`][cb]
 
+## Installation
+
+```
+$ npm install nanofetcher
+```
+
 ## Usage
 
 ```js
@@ -218,6 +224,13 @@ for more details.
 
 ### `Nanofetcher.prototype.afterreorder(el)`
 Called after a component is re-ordered.  See [`nanocomponent`][nc-afterreorder] for more details.
+
+## See also
+
+- [choojs/nanocomponent][nc]
+- [choojs/choo](https://github.com/choojs/choo)
+- [jongacnik/component-box][cb]
+- [yoshuawuyts/nanocache](https://github.com/yoshuawuyts/nanocache)
 
 ## License
 [MIT](https://tldrlegal.com/license/mit-license)
