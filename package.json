@@ -1,0 +1,21 @@
+{
+  "name": "nanofetch",
+  "version": "0.1.0",
+  "description": "nanocomponent with support for fetching async data",
+  "main": "index.js",
+  "browser": {
+    "assert": "nanoassert"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Seth Thompson <s3th.thompson@gmail.com> (https://seththompson.org)",
+  "license": "MIT",
+  "dependencies": {
+    "nanoassert": "^1.1.0",
+    "nanocomponent": "^6.5.0",
+    "nanomorph": "^5.1.3",
+    "on-idle": "^3.1.4",
+    "on-load": "^3.3.4"
+  }
+}
