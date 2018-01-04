@@ -19,8 +19,9 @@ function Nanofetch () {
   this._dataID = null
   this._createdID = null
   this._prefetchCbs = []
-  // make sure child class does not have createElement, but disregard Nanocomponent.prototype.createElement
+  assert.notEqual(this.constructor.name, 'Nanofetch', 'nanofetch: set Component.prototype.constructor = Component')
   assert.ok(!this.constructor.prototype.hasOwnProperty('createElement'), 'nanofetch: createElement should not be defined')
+  assert.ok(!this.constructor.prototype.hasOwnProperty('identity'), 'nanofetch: identity should be a static method')
   this.createElement = this._createElement
   Nanocomponent.call(this)
 }
@@ -33,11 +34,12 @@ Nanofetch.prototype._createElement = function() {
   for (var i = 0; i < arguments.length; i++) args[i] = arguments[i]
 
   var id = this.constructor.identity.apply(null, args)
+  assert.equal(typeof id, 'string', 'nanofetch.render: Component.identity should return type string')
 
   // createElement id should match the id of previously fetched or fetching data,
   // unless an element has already been created for the (now stale) data
   if ((this._status == STATUS.FETCHED || this._status == STATUS.FETCHING)) {
-    assert.ok((id == this._dataID || this._dataID == this._createdID), 'nanofetch.createElement: called with different arguments than nanofetch.prefetch')
+    assert.ok((id == this._dataID || this._dataID == this._createdID), 'nanofetch.render: called with different arguments than nanofetch.prefetch')
     if (id != this._dataID) {
       this._data = null
       this._dataID = null
@@ -103,6 +105,7 @@ Nanofetch.prototype.prefetch = function() {
   for (var i = 0; i < arguments.length - 1; i++) args.push(arguments[i])
 
   var id = this.constructor.identity.apply(null, args)
+  assert.equal(typeof id, 'string', 'nanofetch.prefetch: Component.identity should return type string')
 
   // prefetch id should match the id of previously fetched or fetching data,
   // unless an element has already been created for the (now stale) data
