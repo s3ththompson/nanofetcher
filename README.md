@@ -216,7 +216,7 @@ prototype. See [`nanocomponent`][nc-api] for more details
 Render the component. See [`nanocomponent`][nc-render] for more details.
 
 ### `component.prefetch([arguments…], cb)`
-__Must be called with a callback after render arguments (unless `fetch` [returns a promise](#es6classespromises)).__ Prefetch async data before the component
+__Must be called with a callback after render arguments (unless `fetch` [returns a promise](#es6-classes--promises)).__ Prefetch async data before the component
 is rendered or mounted in the DOM. Arguments must stay the same when component is rendered. Callback
 (`function (err) {}`) called when prefetch finishes. Calling prefetch multiple times will only trigger one async
 data fetch, but all callbacks will wait until the fetch finishes.
