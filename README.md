@@ -56,7 +56,7 @@ Post.prototype.hydrate = function (postData) {
 
 Post.prototype.fetch = function (cb) {
   // fetch async data here, return cb(err) or cb(null, data)
-  cb(null, postData)
+  api(this.postID, cb)
 }
 
 Post.prototype.update = function (postID) {
@@ -124,6 +124,58 @@ function postView (state, emit) {
 }
 ```
 
+### ES6 Classes / Promises
+
+Nanofetcher components can be also be written with ES6 Classes and promises. If `fetch` returns a promise, Nanofetcher
+will automatically return a promise when `prefetch` is called. Other lifecycle hooks will continue to work normally. 
+(When using promises, you do not need to pass a callback to `prefetch`.)
+
+```js
+// post.js
+var Nanofetcher = require('nanofetcher')
+var html = require('bel')
+
+module.exports = Post
+
+class Post extends Nanofetcher {
+
+  static identity (postID) {
+    return String(postID)
+  }
+
+  init (postID) {
+    this.postID = postID
+  }
+
+  update (postID) {
+    return this.postID !== postID
+  }
+
+  placeholder () {
+    return html`<div>Loading...</div>`
+  }
+
+  hydrate (postData) {
+    return html`<div>
+      <h1>${postData.title}</h1>
+      <div>${postData.body}</div>
+    </div>`
+  }
+
+  fetch () {
+    // return a promise
+    return promiseAPI(this.postID)
+  }
+}
+```
+
+```js
+var Post = require('./post.js')
+var post = new Post()
+
+post.prefetch(1).then(() => { /* post 1 data prefetched */ })
+```
+
 ## FAQ
 
 ### What is the component lifecycle?
@@ -164,7 +216,7 @@ prototype. See [`nanocomponent`][nc-api] for more details
 Render the component. See [`nanocomponent`][nc-render] for more details.
 
 ### `component.prefetch([arguments…], cb)`
-__Must be called with a callback (after optional set of arguments).__ Prefetch async data before the component
+__Must be called with a callback after render arguments (unless `fetch` [returns a promise](#es6classespromises)).__ Prefetch async data before the component
 is rendered or mounted in the DOM. Arguments must stay the same when component is rendered. Callback
 (`function (err) {}`) called when prefetch finishes. Calling prefetch multiple times will only trigger one async
 data fetch, but all callbacks will wait until the fetch finishes.
@@ -198,7 +250,7 @@ must share the same root node type as `placeholder`.
 
 ### `Nanofetcher.prototype.fetch(cb)`
 __Must be implemented.__ Implement asynchronous data fetching. Call callback (`function (err, data) {}`)
-with error or fetched data.
+with error or fetched data or return a promise.
 
 ### `Boolean = Nanofetcher.prototype.update([arguments…])`
 __Must be implemented.__ Return a boolean to determine if

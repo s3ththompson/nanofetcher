@@ -1,4 +1,4 @@
-var Nanofetch = require('../')
+var Nanofetcher = require('../')
 var test = require('tape')
 var html = require('bel')
 
@@ -8,9 +8,9 @@ test('prefetching and render', (t) => {
 
     function Post () {
       if (!(this instanceof Post)) return new Post()
-      Nanofetch.call(this)
+      Nanofetcher.call(this)
     }
-    Post.prototype = Object.create(Nanofetch.prototype)
+    Post.prototype = Object.create(Nanofetcher.prototype)
     Post.prototype.constructor = Post
 
     Post.identity = function (postID) {
@@ -35,11 +35,47 @@ test('prefetching and render', (t) => {
           title: 'Hello',
           body: 'Body'
         })
-      }, 100)
+      }, 0)
     }
 
     var post = new Post()
     post.prefetch(1, () => {
+      var el = post.render(1)
+      t.equal(String(el), '<div><h1>Hello</h1></div>', 'init render success')
+    })
+  })
+
+  t.test('should work with ES6 classes and promises', (t) => {
+    t.plan(1)
+
+    class Post extends Nanofetcher {
+
+      static identity (postID) {
+        return String(postID)
+      }
+
+      init (postID) {
+        this.postID = postID
+      }
+
+      placeholder () {
+        return html`<div>Loading...</div>`
+      }
+
+      hydrate (postData) {
+        return html`<div><h1>${postData.title}</h1></div>`
+      }
+
+      fetch () {
+        return Promise.resolve({
+          title: 'Hello',
+          body: 'Body'
+        })
+      }
+    }
+
+    var post = new Post()
+    post.prefetch(1).then(() => {
       var el = post.render(1)
       t.equal(String(el), '<div><h1>Hello</h1></div>', 'init render success')
     })

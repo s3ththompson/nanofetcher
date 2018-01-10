@@ -1,4 +1,4 @@
-var Nanofetch = require('../')
+var Nanofetcher = require('../')
 var test = require('tape')
 var html = require('bel')
 
@@ -8,9 +8,9 @@ test('prefetching and render', (t) => {
 
     function Post () {
       if (!(this instanceof Post)) return new Post()
-      Nanofetch.call(this)
+      Nanofetcher.call(this)
     }
-    Post.prototype = Object.create(Nanofetch.prototype)
+    Post.prototype = Object.create(Nanofetcher.prototype)
     Post.prototype.constructor = Post
 
     Post.identity = function (postID) {
