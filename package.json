@@ -7,7 +7,8 @@
     "assert": "nanoassert"
   },
   "scripts": {
-    "test": "npm run test:node && npm run test:browser",
+    "fmt": "prettier-standard '**/*.js'",
+    "test": "npm run fmt && npm run test:node && npm run test:browser",
     "test:node": "NODE_ENV=test node test/node.js | tap-spec",
     "test:browser": "browserify test/browser.js | tape-run | tap-spec"
   },
@@ -24,6 +25,7 @@
   "devDependencies": {
     "bel": "^5.1.5",
     "browserify": "^15.2.0",
+    "prettier-standard": "^8.0.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.8.0",
     "tape-run": "^3.0.2"

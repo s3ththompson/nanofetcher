@@ -2,8 +2,8 @@ var Nanofetcher = require('../')
 var test = require('tape')
 var html = require('bel')
 
-test('prefetching and render', (t) => {
-  t.test('should prefetch and render elements', (t) => {
+test('prefetching and render', t => {
+  t.test('should prefetch and render elements', t => {
     t.plan(1)
 
     function Post () {
@@ -45,11 +45,10 @@ test('prefetching and render', (t) => {
     })
   })
 
-  t.test('should work with ES6 classes and promises', (t) => {
+  t.test('should work with ES6 classes and promises', t => {
     t.plan(1)
 
     class Post extends Nanofetcher {
-
       static identity (postID) {
         return String(postID)
       }

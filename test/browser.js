@@ -2,8 +2,8 @@ var Nanofetcher = require('../')
 var test = require('tape')
 var html = require('bel')
 
-test('prefetching and render', (t) => {
-  t.test('should prefetch and render elements', (t) => {
+test('prefetching and render', t => {
+  t.test('should prefetch and render elements', t => {
     t.plan(2)
 
     function Post () {
@@ -40,7 +40,11 @@ test('prefetching and render', (t) => {
 
     Post.prototype.done = function (err) {
       t.notOk(err, 'no error')
-      t.equal(document.querySelector(".title").innerText, 'Hello', 'rendered correctly.')
+      t.equal(
+        document.querySelector('.title').innerText,
+        'Hello',
+        'rendered correctly.'
+      )
     }
 
     var post = new Post()
